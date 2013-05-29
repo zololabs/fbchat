@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_zolo_fb_chat" default="compile.module.zolo_fb_chat">
+  <dirname property="module.zolo_fb_chat.basedir" file="${ant.file.module_zolo_fb_chat}"/>
+  
+  <property name="module.jdk.home.zolo_fb_chat" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.zolo_fb_chat" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.zolo_fb_chat" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.zolo_fb_chat" value="${compiler.args}"/>
+  
+  <property name="zolo_fb_chat.output.dir" value="${module.zolo_fb_chat.basedir}/out/production/zolo_fb_chat"/>
+  <property name="zolo_fb_chat.testoutput.dir" value="${module.zolo_fb_chat.basedir}/out/test/zolo_fb_chat"/>
+  
+  <path id="zolo_fb_chat.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="zolo_fb_chat.module.production.classpath">
+    <path refid="${module.jdk.classpath.zolo_fb_chat}"/>
+    <path refid="library.smack.classpath"/>
+  </path>
+  
+  <path id="zolo_fb_chat.runtime.production.module.classpath">
+    <pathelement location="${zolo_fb_chat.output.dir}"/>
+    <path refid="library.smack.classpath"/>
+  </path>
+  
+  <path id="zolo_fb_chat.module.classpath">
+    <path refid="${module.jdk.classpath.zolo_fb_chat}"/>
+    <pathelement location="${zolo_fb_chat.output.dir}"/>
+    <path refid="library.smack.classpath"/>
+  </path>
+  
+  <path id="zolo_fb_chat.runtime.module.classpath">
+    <pathelement location="${zolo_fb_chat.testoutput.dir}"/>
+    <pathelement location="${zolo_fb_chat.output.dir}"/>
+    <path refid="library.smack.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.zolo_fb_chat">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.zolo_fb_chat">
+    <patternset refid="excluded.from.module.zolo_fb_chat"/>
+  </patternset>
+  
+  <path id="zolo_fb_chat.module.sourcepath">
+    <dirset dir="${module.zolo_fb_chat.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.zolo_fb_chat" depends="compile.module.zolo_fb_chat.production,compile.module.zolo_fb_chat.tests" description="Compile module zolo_fb_chat"/>
+  
+  <target name="compile.module.zolo_fb_chat.production" depends="register.custom.compilers" description="Compile module zolo_fb_chat; production classes">
+    <mkdir dir="${zolo_fb_chat.output.dir}"/>
+    <javac2 destdir="${zolo_fb_chat.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.zolo_fb_chat}/javac">
+      <compilerarg line="${compiler.args.zolo_fb_chat}"/>
+      <bootclasspath refid="zolo_fb_chat.module.bootclasspath"/>
+      <classpath refid="zolo_fb_chat.module.production.classpath"/>
+      <src refid="zolo_fb_chat.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.zolo_fb_chat"/>
+    </javac2>
+    
+    <copy todir="${zolo_fb_chat.output.dir}">
+      <fileset dir="${module.zolo_fb_chat.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.zolo_fb_chat.tests" depends="register.custom.compilers,compile.module.zolo_fb_chat.production" description="compile module zolo_fb_chat; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.zolo_fb_chat" description="cleanup module">
+    <delete dir="${zolo_fb_chat.output.dir}"/>
+    <delete dir="${zolo_fb_chat.testoutput.dir}"/>
+  </target>
+</project>
